@@ -10,6 +10,10 @@ def products_index(request):
     products = Product.objects.all()
     return render(request, 'products/index.html', { 'products': products, 'page_name': page_name })
 
+def product_detail(request, pk):
+    product = Product.objects.get(id=pk)
+    return render(request, 'products/detail.html', { 'product': product })
+
 def cart(request):
     return render(request, 'cart.html')
 

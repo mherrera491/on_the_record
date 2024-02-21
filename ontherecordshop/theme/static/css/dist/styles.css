@@ -886,6 +886,14 @@ select {
   margin-top: 1rem;
 }
 
+.ml-8 {
+  margin-left: 2rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
 .block {
   display: block;
 }
@@ -930,6 +938,10 @@ select {
   height: 100vh;
 }
 
+.h-32 {
+  height: 8rem;
+}
+
 .min-h-full {
   min-height: 100%;
 }
@@ -954,6 +966,18 @@ select {
   width: 100%;
 }
 
+.w-32 {
+  width: 8rem;
+}
+
+.w-1\/3 {
+  width: 33.333333%;
+}
+
+.w-2\/3 {
+  width: 66.666667%;
+}
+
 .max-w-2xl {
   max-width: 42rem;
 }
@@ -966,6 +990,14 @@ select {
   max-width: 20rem;
 }
 
+.max-w-4xl {
+  max-width: 56rem;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
+}
+
 .flex-shrink-0 {
   flex-shrink: 0;
 }
@@ -976,6 +1008,10 @@ select {
 
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.flex-col {
+  flex-direction: column;
 }
 
 .items-center {
@@ -1061,6 +1097,11 @@ select {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-indigo-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(79 70 229 / var(--tw-bg-opacity));
+}
+
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
@@ -1131,6 +1172,10 @@ select {
   padding-top: 1rem;
 }
 
+.align-top {
+  vertical-align: top;
+}
+
 .font-serif {
   font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }
@@ -1153,6 +1198,16 @@ select {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 .font-bold {
@@ -1266,6 +1321,11 @@ select {
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-indigo-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(67 56 202 / var(--tw-bg-opacity));
+}
+
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -1300,8 +1360,28 @@ select {
 }
 
 @media (min-width: 640px) {
+  .sm\:mb-0 {
+    margin-bottom: 0px;
+  }
+
+  .sm\:ml-8 {
+    margin-left: 2rem;
+  }
+
+  .sm\:w-2\/3 {
+    width: 66.666667%;
+  }
+
+  .sm\:w-1\/2 {
+    width: 50%;
+  }
+
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sm\:flex-row {
+    flex-direction: row;
   }
 
   .sm\:px-3 {
@@ -1349,6 +1429,10 @@ select {
 
   .lg\:max-w-7xl {
     max-width: 80rem;
+  }
+
+  .lg\:max-w-full {
+    max-width: 100%;
   }
 
   .lg\:grid-cols-4 {
