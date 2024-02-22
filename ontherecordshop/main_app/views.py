@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from .models import Product
+from django.shortcuts import render, redirect
+from .models import Product, Cart, CartItem
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     page_name = "Home"
@@ -19,3 +20,19 @@ def cart(request):
 
 def checkout(request):
     return render(request, 'checkout.html')
+
+
+@login_required
+def add_to_cart(request, product_id):
+    product = Product.objects.get(id=product_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect('cart')
+
+@login_required
+def view_cart(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    return render(request, 'cart/view_cart.html', {'cart': cart, 'cart_items': cart_items})
