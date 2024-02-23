@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% block content %}
+
+{% if error %}
+    <p>{{ error.capitalize }}</p>
+{% endif %}
+
+<form action="{% url 'signup' %}" method="POST" class="max-w-md mx-auto my-8 p-6 bg-white rounded-md shadow-md">
+    {% csrf_token %}
+    <div class="mb-4">
+        <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-600">Username</label>
+        {{ form.username }}
+    </div>
+    
+    <div class="mb-4">
+        <label for="{{ form.password1.id_for_label }}" class="block text-sm font-medium text-gray-600">Password</label>
+        {{ form.password1 }}
+    </div>
+    
+    <div class="mb-4">
+        <label for="{{ form.password2.id_for_label }}" class="block text-sm font-medium text-gray-600">Confirm Password</label>
+        {{ form.password2 }}
+    </div>
+    
+    <input type="submit" value="Create Account" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
+</form>
+
+{% endblock %}

@@ -846,6 +846,11 @@ select {
   margin-right: auto;
 }
 
+.my-8 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .-mr-2 {
   margin-right: -0.5rem;
 }
@@ -990,6 +995,10 @@ select {
   max-width: 20rem;
 }
 
+.max-w-md {
+  max-width: 28rem;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1124,6 +1133,10 @@ select {
   padding: 1rem;
 }
 
+.p-6 {
+  padding: 1.5rem;
+}
+
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -1222,6 +1235,10 @@ select {
   font-weight: 600;
 }
 
+.capitalize {
+  text-transform: capitalize;
+}
+
 .leading-none {
   line-height: 1;
 }
@@ -1271,6 +1288,11 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-gray-600 {
+  --tw-text-opacity: 1;
+  color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
 .shadow {

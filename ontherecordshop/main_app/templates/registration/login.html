@@ -2,13 +2,20 @@
 
 {% block content %}
 
-<h1>Log In</h1>
-
-<form action="{% url 'login' %}" method='POST'>
+<form action="{% url 'login' %}" method="POST" class="max-w-md mx-auto my-8 p-6 bg-white rounded-md shadow-md">
     {% csrf_token %}
-    {{ form.as_p }}
+    
+    <div class="mb-4">
+        <label for="{{ form.username.id_for_label }}" class="block text-sm font-medium text-gray-600">Username</label>
+        {{ form.username }}
+    </div>
+    
+    <div class="mb-4">
+        <label for="{{ form.password.id_for_label }}" class="block text-sm font-medium text-gray-600">Password</label>
+        {{ form.password }}
+    </div>
     <input type="hidden" name="next" value="{{ next }}">
-    <input type="submit" value="Login">
+    <input type="submit" value="Sign In" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">
 </form>
 
 {% endblock %}

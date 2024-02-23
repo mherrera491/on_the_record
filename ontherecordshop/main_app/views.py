@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 
 def home(request):
     page_name = "Home"
@@ -18,11 +20,20 @@ def product_detail(request, pk):
     product = Product.objects.get(id=pk)
     return render(request, 'products/detail.html', { 'product': product })
 
-def cart(request):
-    return render(request, 'cart.html')
-
-def checkout(request):
-    return render(request, 'checkout.html')
+def signup(request):
+    page_name = "Create Account"
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            error_message = 'Invalid credentials - Please try again.'
+    form = UserCreationForm()
+    context = {'form':form, 'error': error_message, 'page_name': page_name}
+    return render(request, 'registration/signup.html', context)
 
 
 @login_required
