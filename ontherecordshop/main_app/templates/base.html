@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="min-h-full">
-      <nav class="bg-gray-800">
+      <nav class="bg-sky-800 shadow-md fixed w-full top-0 z-10" id="navbar">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="flex h-16 items-center justify-between">
             <div class="flex items-center">
@@ -24,13 +24,13 @@
                 <div class="ml-10 flex items-baseline space-x-4">
                   <a
                     href="{% url 'home' %}"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    class="text-gray-300 hover:bg-sky-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     aria-current="page"
                     >Home</a
                   >
                   <a
                     href="{% url 'all_products' %}"
-                    class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    class="text-gray-300 hover:bg-sky-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >Shop All</a
                   >
                 </div>
@@ -38,7 +38,7 @@
             </div>
             <div class="hidden md:block">
               <div class="ml-4 flex items-center md:ml-6">
-                <a href="{% url 'cart' %}" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <a href="{% url 'cart' %}" class="relative rounded-full bg-sky-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">View Cart</span>
                   <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -60,7 +60,7 @@
                       type="button"
                       @click="open = !open"
                       id="user-menu-button"
-                      class="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                      class="relative flex max-w-xs items-center rounded-full bg-sky-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                       id="user-menu-button"
                       aria-expanded="false"
                       aria-haspopup="true"
@@ -124,7 +124,7 @@
               <button
                 type="button"
                 id="mobile-menu-button"
-                class="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                class="relative inline-flex items-center justify-center rounded-md bg-sky-800 p-2 text-gray-400 hover:bg-sky-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 aria-controls="mobile-menu"
                 aria-expanded="false"
               >
@@ -171,16 +171,16 @@
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <a
               href="{% url 'home' %}"
-              class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              class="text-gray-300 hover:bg-sky-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
               >Home</a
             >
             <a
               href="{% url 'all_products' %}"
-              class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              class="text-gray-300 hover:bg-sky-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
               >Shop All</a
             >
           </div>
-          <div class="border-t border-gray-700 pb-3 pt-4">
+          <div class="border-t border-sky-700 pb-3 pt-4">
             <div class="flex items-center px-5">
               <div class="flex-shrink-0">
                 <img
@@ -201,7 +201,7 @@
                 {% endif %}
               </div>
               <div class="ml-auto">
-              <a href="{% url 'cart' %}" class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+              <a href="{% url 'cart' %}" class="relative rounded-full bg-sky-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <span class="absolute -inset-1.5"></span>
                 <span class="sr-only">View Cart</span>
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -221,13 +221,13 @@
               {% if user.is_authenticated %}
               <a
                 href="#"
-                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-sky-700 hover:text-white"
                 >Your Profile</a
               >
               <form
                 action="{% url 'logout' %}"
                 method="post"
-                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-sky-700 hover:text-white"
               >
                 {% csrf_token %}
                 <button type="submit">Sign Out</button>
@@ -235,11 +235,11 @@
               {% else %}
               <a
                 href="{% url 'login' %}"
-                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-sky-700 hover:text-white"
               >Sign In</a>
               <a
                 href="{% url 'signup' %}"
-                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-sky-700 hover:text-white"
               >Create Account</a>
               </form>
               {% endif %}
@@ -248,20 +248,21 @@
         </div>
       </nav>
 
-      <header class="bg-white shadow">
+      <header class="bg-white shadow mt-14">
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 class="text-3xl font-bold tracking-tight text-gray-900">
             {{ page_name }}
           </h1>
         </div>
       </header>
-      <main>
-        <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+      <main class="mt-0">
+        <div class="mx-auto mt-0 pt-0 max-w-7xl py-6 sm:px-6 lg:px-8">
           {% block content %} {% endblock %}
         </div>
       </main>
     </div>
     <script>
+      
       document.addEventListener("DOMContentLoaded", function () {
         const dropdownButton = document.getElementById("user-menu-button");
         const dropdownMenu = document.getElementById("user-menu");
