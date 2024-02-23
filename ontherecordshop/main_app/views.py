@@ -1,6 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, Cart, CartItem
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
+from django.views.generic import DeleteView
+from django.contrib import messages
 
 def home(request):
     page_name = "Home"
@@ -25,14 +28,50 @@ def checkout(request):
 @login_required
 def add_to_cart(request, product_id):
     product = Product.objects.get(id=product_id)
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
-    cart_item.quantity += 1
-    cart_item.save()
-    return redirect('cart')
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+
+        # Update quantity if the item already exists in the cart
+        if not created:
+            cart_item.quantity += quantity
+        else:
+            cart_item.quantity = quantity
+
+        cart_item.save()
+
+        messages.success(request, f"{quantity} x {product.album} added to the cart.")
+
+        return redirect('cart')
+
+    return render(request, 'products/product_detail.html', {'product': product})
 
 @login_required
 def view_cart(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
     return render(request, 'cart/view_cart.html', {'cart': cart, 'cart_items': cart_items})
+
+def remove_from_cart(request, cart_item_id):
+    cart_item = get_object_or_404(CartItem, id=cart_item_id)
+    cart_item.delete()
+    return redirect('cart')
+
+def update_cart_item(request, cart_item_id):
+    cart_item = CartItem.objects.get(id=cart_item_id)
+
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+
+        # Validate quantity
+        if 1 <= quantity <= cart_item.product.stock:
+            cart_item.quantity = quantity
+            cart_item.save()
+            messages.success(request, f"Quantity updated for {cart_item.product.album}.")
+        else:
+            messages.error(request, "Invalid quantity.")
+
+        return redirect('cart')
+
+    return render(request, 'products/view_cart.html', {'cart_items': CartItem.objects.filter(cart=request.user.cart)})

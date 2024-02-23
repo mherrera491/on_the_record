@@ -1,7 +1,25 @@
 {% extends 'base.html' %} {% block content %}
 
 {% for item in cart_items %}
-    <p>{{ item.quantity }} x {{ item.product.title }} - ${{ item.product.price }}</p>
-{% endfor %}
+<div class="cart-item bg-white p-4 mb-4 rounded-md shadow-md">
+    <div class="flex items-center mb-2">
+        <img src="{{ item.product.album_cover }}" alt="{{ item.product.album }}" class="w-16 h-16 object-cover rounded-md mr-4">
+        <div>
+            <p class="text-lg font-semibold">{{ item.product.album }}</p>
+            <p class="text-gray-500">${{ item.product.price }}</p>
+        </div>
+    </div>
+    <p class="mb-2">Quantity: 
+        <form method="post" action="{% url 'update_cart_item' cart_item_id=item.id %}">
+            {% csrf_token %}
+            <input type="number" name="quantity" min="1" max="{{ item.product.stock }}" value="{{ item.quantity }}" class="border rounded-md px-2 py-1">
+            <button type="submit" class="ml-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md">
+                Update
+            </button>
+        </form>
+    </p>
+    <a href="{% url 'remove_from_cart' cart_item_id=item.id %}" class="text-red-500 font-semibold">Remove</a>
+</div>
+    {% endfor %}
 
 {% endblock %}
