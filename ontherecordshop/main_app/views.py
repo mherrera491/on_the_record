@@ -62,7 +62,10 @@ def add_to_cart(request, product_id):
 def view_cart(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
-    return render(request, 'cart/view_cart.html', {'cart': cart, 'cart_items': cart_items})
+
+    subtotal = sum(item.product.price * item.quantity for item in cart_items)
+
+    return render(request, 'cart/view_cart.html', {'cart': cart, 'cart_items': cart_items, 'subtotal': subtotal})
 
 def remove_from_cart(request, cart_item_id):
     cart_item = get_object_or_404(CartItem, id=cart_item_id)
@@ -79,9 +82,9 @@ def update_cart_item(request, cart_item_id):
         if 1 <= quantity <= cart_item.product.stock:
             cart_item.quantity = quantity
             cart_item.save()
-            messages.success(request, f"Quantity updated for {cart_item.product.album}.")
+            messages.success(request, f"Quantity Updated For - {cart_item.product.album}.")
         else:
-            messages.error(request, "Invalid quantity.")
+            messages.error(request, "Invalid Quantity.")
 
         return redirect('cart')
 
