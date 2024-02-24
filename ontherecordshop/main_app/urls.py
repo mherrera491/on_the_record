@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
 from . import views
-from .views import update_cart_item
+from .views import update_cart_item, SuccessView, CancelView
 
 urlpatterns = [
     path("", views.home, name='home'),
@@ -13,5 +13,7 @@ urlpatterns = [
     path('remove_from_cart/<int:cart_item_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('update_cart_item/<int:cart_item_id>/', update_cart_item, name='update_cart_item'),
     path('accounts/signup/', views.signup, name='signup'),
+    path('cancel/', CancelView.as_view(), name='cancel'),
+    path('success/', SuccessView.as_view(), name='success')
 ]
 

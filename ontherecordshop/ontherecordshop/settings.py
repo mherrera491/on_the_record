@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,10 +91,7 @@ WSGI_APPLICATION = 'ontherecordshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -100,6 +100,9 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
     }
 }
+
+STRIPE_PUBLIC_KEY = 'pk_test_51OnNDKI6q9Dae5J9VKGiHpGcMZSR4kSotoAOQ5ZfO9LK2xcPjTDJNZth4KZJ4BNyzgRXojXCTxmhd2vbaPRIUi8C00lyPhanlc'
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

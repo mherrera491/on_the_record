@@ -16,6 +16,8 @@
     </div>
     <input type="hidden" name="next" value="{{ next }}">
     <input type="submit" value="Sign In" class="bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-700">
+
+    <p class="mt-2 text-sm text-gray-600">Or <a href="{% url 'signup' %}" class="text-sky-600">Create an Account</a></p>
 </form>
 
 {% endblock %}

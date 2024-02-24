@@ -2,14 +2,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, Cart, CartItem
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, TemplateView
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+import os, stripe
+from dotenv import load_dotenv
+load_dotenv()
 
 def home(request):
-    page_name = "Home"
-    return render(request, 'home.html', {'page_name': page_name})
+    page_name = "On The Record"
+    featured_releases = Product.objects.filter(is_featured=True)
+    new_releases = Product.objects.order_by('-release_date')[:5]
+    return render(request, 'home.html', {'page_name': page_name, 'featured_releases': featured_releases, 'new_releases': new_releases})
 
 def products_index(request):
     page_name = "Shop All"
@@ -56,7 +61,7 @@ def add_to_cart(request, product_id):
 
         return redirect('cart')
 
-    return render(request, 'products/product_detail.html', {'product': product})
+    return render(request, 'products/detail.html', {'product': product})
 
 @login_required
 def view_cart(request):
@@ -89,3 +94,39 @@ def update_cart_item(request, cart_item_id):
         return redirect('cart')
 
     return render(request, 'products/view_cart.html', {'cart_items': CartItem.objects.filter(cart=request.user.cart)})
+
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+
+def checkout(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    subtotal = sum(item.product.price * item.quantity for item in cart_items)
+
+    if request.method == 'POST':
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': item.product.album,
+                    },
+                    'unit_amount': int(item.product.price * 100),
+                },
+                'quantity': item.quantity,
+            } for item in cart_items],
+            mode='payment',
+            success_url='#',
+            cancel_url='#', 
+        )
+
+        return redirect(checkout_session.url)
+
+    return render(request, 'cart/checkout.html', {'cart': cart, 'cart_items': cart_items, 'subtotal': subtotal})
+
+
+class SuccessView(TemplateView):
+    template_name='cart/success.html'
+
+class CancelView(TemplateView):
+    template_name='cart/cancel.html'
