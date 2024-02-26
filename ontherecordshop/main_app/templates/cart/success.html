@@ -1,12 +1,13 @@
 {% extends 'base.html' %} {% block content %}
 
-<body>
-    <section>
-        <p>
+<div class="bg-gray-100 font-sans">
+    <div class="bg-white shadow-md rounded-md" style="text-align: center; height: 100px">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">
             Thank you for shopping at On The Record!
-        </p>
-        <a href="{% url 'all_products' %}">Continue Shopping</a></p>
-    </section>
-</body>
+        </h2>
+
+        <a href="{% url 'all_products' %}" class="inline-block bg-sky-600 text-white px-4 py-2 rounded-md hover:bg-sky-700">Continue Shopping</a>
+    </div>
+</div>
 
 {% endblock %}

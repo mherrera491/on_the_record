@@ -13,8 +13,8 @@ load_dotenv()
 
 def home(request):
     page_name = "On The Record"
-    featured_releases = Product.objects.filter(is_featured=True)
-    new_releases = Product.objects.order_by('-release_date')[:5]
+    featured_releases = Product.objects.filter(is_featured=True)[:4]
+    new_releases = Product.objects.order_by('-release_date')[:4]
     return render(request, 'home.html', {'page_name': page_name, 'featured_releases': featured_releases, 'new_releases': new_releases})
 
 def products_index(request):
@@ -104,6 +104,7 @@ def checkout(request):
     subtotal = sum(item.product.price * item.quantity for item in cart_items)
     stripe.api_key = settings.STRIPE_SECRET_KEY
     if request.method == 'POST':
+        products_to_update = []
         checkout_session = stripe.checkout.Session.create(
             line_items=[{
                 'price_data': {
@@ -119,6 +120,13 @@ def checkout(request):
             success_url=request.build_absolute_uri(reverse("success")),
             cancel_url=request.build_absolute_uri(reverse("cancel")), 
         )
+
+        for item in cart_items:
+            product = item.product
+            product.stock -= item.quantity
+            products_to_update.append(product)
+        
+        Product.objects.bulk_update(products_to_update, ['stock'])
 
         return redirect(checkout_session.url, code=303)
 
