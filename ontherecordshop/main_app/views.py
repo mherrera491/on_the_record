@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, Cart, CartItem
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import DeleteView, TemplateView
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.conf import settings
 import os, stripe
 from dotenv import load_dotenv
 load_dotenv()
@@ -95,16 +96,15 @@ def update_cart_item(request, cart_item_id):
 
     return render(request, 'products/view_cart.html', {'cart_items': CartItem.objects.filter(cart=request.user.cart)})
 
-stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
+
 
 def checkout(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = CartItem.objects.filter(cart=cart)
     subtotal = sum(item.product.price * item.quantity for item in cart_items)
-
+    stripe.api_key = settings.STRIPE_SECRET_KEY
     if request.method == 'POST':
         checkout_session = stripe.checkout.Session.create(
-            payment_method_types=['card'],
             line_items=[{
                 'price_data': {
                     'currency': 'usd',
@@ -116,17 +116,24 @@ def checkout(request):
                 'quantity': item.quantity,
             } for item in cart_items],
             mode='payment',
-            success_url='#',
-            cancel_url='#', 
+            success_url=request.build_absolute_uri(reverse("success")),
+            cancel_url=request.build_absolute_uri(reverse("cancel")), 
         )
 
-        return redirect(checkout_session.url)
+        return redirect(checkout_session.url, code=303)
 
-    return render(request, 'cart/checkout.html', {'cart': cart, 'cart_items': cart_items, 'subtotal': subtotal})
+    return render(request, 'cart/view_cart.html', {'cart': cart, 'cart_items': cart_items, 'subtotal': subtotal})
 
 
 class SuccessView(TemplateView):
     template_name='cart/success.html'
+
+    def get(self, request):
+
+        user_cart, created = Cart.objects.get_or_create(user=request.user)
+        user_cart.products.clear()
+
+        return render(request, self.template_name)
 
 class CancelView(TemplateView):
     template_name='cart/cancel.html'
