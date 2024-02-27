@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.conf import settings
+from django.db.models import Q
 import os, stripe
 from dotenv import load_dotenv
 load_dotenv()
@@ -45,6 +46,12 @@ def products_by_artist(request, artist_name):
     products = Product.objects.filter(artist=artist_name)
     context = {'products': products, 'artist_name': artist_name}
     return render(request, 'artist/products_by_artist.html', context)
+
+def search_results(request):
+    query = request.GET.get('q')
+    results = Product.objects.filter(Q(artist__icontains=query) | Q(album__icontains=query))
+    context = {'results': results}
+    return render(request, 'search/search_results.html', context)
 
 def signup(request):
     page_name = "Create Account"
