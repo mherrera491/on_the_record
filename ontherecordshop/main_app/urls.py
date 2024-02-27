@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
 from . import views
-from .views import update_cart_item, SuccessView, CancelView
+from .views import update_cart_item, SuccessView, CancelView, genre_list, products_by_genre, products_by_artist, artist_list
 
 urlpatterns = [
     path("", views.home, name='home'),
@@ -16,5 +16,9 @@ urlpatterns = [
     path('cancel/', CancelView.as_view(), name='cancel'),
     path('success/', SuccessView.as_view(), name='success'),
     path('checkout/', views.checkout, name='checkout'),
+    path('genres/', genre_list, name='genre_list'),
+    path('genres/<int:genre_id>/', products_by_genre, name='products_by_genre'),
+    path('artists/', artist_list, name='artist_list'),
+    path('artists/<str:artist_name>/', products_by_artist, name="products_by_artist"),
 ]
 

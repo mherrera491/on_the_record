@@ -34,6 +34,16 @@
                     class="text-gray-300 hover:bg-sky-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >Shop All</a
                   >
+                  <a
+                    href="{% url 'genre_list' %}"
+                    class="text-gray-300 hover:bg-sky-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    >Shop By Genre</a
+                  >
+                  <a
+                    href="{% url 'artist_list' %}"
+                    class="text-gray-300 hover:bg-sky-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                    >Shop By Artist</a
+                  >
                 </div>
               </div>
             </div>
@@ -179,6 +189,16 @@
               href="{% url 'all_products' %}"
               class="text-gray-300 hover:bg-sky-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
               >Shop All</a
+            >
+            <a
+              href="{% url 'genre_list' %}"
+              class="text-gray-300 hover:bg-sky-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              >Shop By Genre</a
+            >
+            <a
+              href="{% url 'artist_list' %}"
+              class="text-gray-300 hover:bg-sky-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
+              >Shop By Artist</a
             >
           </div>
           <div class="border-t border-sky-700 pb-3 pt-4">

@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% block content %} {% for genre in genres %}
+<div class="mx-auto max-w-2xl px-4 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8 ">
+  <a href="{% url 'products_by_genre' genre.id %}" class="text-2xl font-bold text-gray-800 mb-4 hover:text-sky-600">
+    <h2>
+      {{ genre.name }}
+    </h2>
+  </a>
+  <div
+    class="flex flex-wrap mt-0 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
+  >
+    {% for product in genre.product_set.all|slice:":4" %}
+    <div class="group relative">
+      <div
+        class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md group-hover:opacity-75 relative"
+      >
+        <a href="{% url 'detail' pk=product.pk %}">
+          <img
+            src="{{ product.album_cover }}"
+            alt="{{ product.album }}"
+            class="h-full w-full object-cover object-center lg:h-full lg:w-full sm:h-48 sm:w-48 md:h-64 md:w-64"
+          />
+        </a>
+      </div>
+      <div class="mt-4 flex justify-between">
+        <div>
+          <h3 class="text-sm text-gray-700">
+            <a href="{% url 'detail' pk=product.pk %}">{{ product.album }}</a>
+          </h3>
+          <p class="mt-1 text-sm text-gray-500">{{ product.artist }}</p>
+        </div>
+        <p class="text-sm font-medium text-gray-900">${{ product.price }}</p>
+      </div>
+      {% if product.stock > 0 %}
+      <form method="post" action="{% url 'add_to_cart' product.id %}">
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="mt-4 px-4 py-2 text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 rounded-md" style="margin-bottom: 2rem !important;"
+        >
+          Add to Cart
+        </button>
+      </form>
+      {% else %}
+      <p class="mt-4 text-red-500 font-bold" style="margin-bottom: 2rem !important;">Out of Stock</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %} {% endblock %}

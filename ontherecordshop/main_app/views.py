@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Cart, CartItem
+from .models import Product, Cart, CartItem, Genre
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DeleteView, TemplateView
@@ -15,7 +15,8 @@ def home(request):
     page_name = "On The Record"
     featured_releases = Product.objects.filter(is_featured=True)[:4]
     new_releases = Product.objects.order_by('-release_date')[:4]
-    return render(request, 'home.html', {'page_name': page_name, 'featured_releases': featured_releases, 'new_releases': new_releases})
+    context = {'page_name': page_name, 'featured_releases': featured_releases, 'new_releases': new_releases}
+    return render(request, 'home.html', context)
 
 def products_index(request):
     page_name = "Shop All"
@@ -25,6 +26,25 @@ def products_index(request):
 def product_detail(request, pk):
     product = Product.objects.get(id=pk)
     return render(request, 'products/detail.html', { 'product': product })
+
+def genre_list(request):
+    genres = Genre.objects.all()
+    return render(request, 'genre/genre_list.html', {'genres': genres})
+
+def products_by_genre(request, genre_id):
+    genre = get_object_or_404(Genre, id=genre_id)
+    products = Product.objects.filter(genre=genre)
+    return render(request, 'genre/products_by_genre.html', {'genre': genre, 'products': products})
+
+def artist_list(request):
+    artists = Product.objects.values('artist').distinct()
+    context = {'artists': artists}
+    return render(request, 'artist/artist_list.html', context)
+
+def products_by_artist(request, artist_name):
+    products = Product.objects.filter(artist=artist_name)
+    context = {'products': products, 'artist_name': artist_name}
+    return render(request, 'artist/products_by_artist.html', context)
 
 def signup(request):
     page_name = "Create Account"
@@ -95,8 +115,6 @@ def update_cart_item(request, cart_item_id):
         return redirect('cart')
 
     return render(request, 'products/view_cart.html', {'cart_items': CartItem.objects.filter(cart=request.user.cart)})
-
-
 
 def checkout(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
