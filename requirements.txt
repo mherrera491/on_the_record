@@ -10,6 +10,7 @@ click==8.1.7
 colorama==0.4.6
 cookiecutter==2.5.0
 distlib==0.3.8
+dj-database-url==2.1.0
 Django==5.0.1
 django-browser-reload==1.12.1
 django-tailwind==3.8.0
