@@ -29,7 +29,7 @@ def product_detail(request, pk):
     return render(request, 'products/detail.html', { 'product': product })
 
 def genre_list(request):
-    genres = Genre.objects.all()
+    genres = Genre.objects.all().order_by('name')
     return render(request, 'genre/genre_list.html', {'genres': genres})
 
 def products_by_genre(request, genre_id):
@@ -38,7 +38,7 @@ def products_by_genre(request, genre_id):
     return render(request, 'genre/products_by_genre.html', {'genre': genre, 'products': products})
 
 def artist_list(request):
-    artists = Product.objects.values('artist').distinct()
+    artists = Product.objects.values('artist').distinct().order_by('artist')
     context = {'artists': artists}
     return render(request, 'artist/artist_list.html', context)
 

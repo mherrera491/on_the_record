@@ -1,12 +1,34 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
-<h1>Artist List</h1>
-    <ul>
-        {% for artist in artists %}
-            <li><a href="{% url 'products_by_artist' artist_name=artist.artist %}">{{ artist.artist }}</a></li>
-        {% endfor %}
+<h1 class="text-2xl font-bold text-gray-800 mb-4">Shop By Artist</h1>
+<div class="alphabet-container mb-4">
+    <ul class="alphabet-links flex space-x-2">
+      {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+        <li>
+          <a href="#{{ letter }}" class="text-lg hover:text-sky-500 transform transition-transform hover:scale-110">
+            {{ letter }}
+          </a>
+        </li>
+      {% endfor %}
     </ul>
-
+  </div>
+  
+  {% for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" %}
+    <section id="{{ letter }}" class="text-center">
+      <h2 class="text-2xl font-bold text-gray-800">{{ letter }}</h2>
+      <div class="border-b border-gray-300 mb-5"></div>
+      <ul class="grid grid-cols-4 gap-4">
+        {% for artist in artists %} 
+          {% if artist.artist|first == letter %}
+            <li>
+              <a href="{% url 'products_by_artist' artist_name=artist.artist %}" class="text-lg hover:text-sky-500 transform transition-transform hover:scale-110 block">
+                {{ artist.artist }}
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </section>
+  {% endfor %}
 
 {% endblock %}

@@ -1,0 +1,26 @@
+.alphabet-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+.alphabet-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+  }
+
+  .alphabet-links li {
+    margin-right: 10px;
+  }
+
+  .artist-list {
+    list-style: none;
+    padding: 0;
+    margin-left: 40px;
+  }
+  
+  .artist-list li {
+    margin-bottom: 8px;
+  }
