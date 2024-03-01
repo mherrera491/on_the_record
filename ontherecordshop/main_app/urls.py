@@ -1,7 +1,8 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
 from . import views
-from .views import update_cart_item, SuccessView, CancelView, genre_list, products_by_genre, products_by_artist, artist_list, search_results
+from django.contrib.auth.decorators import login_required
+from .views import update_cart_item, SuccessView, CancelView, genre_list, products_by_genre, products_by_artist, artist_list, search_results, add_to_wishlist, wishlist, remove_from_wishlist
 
 urlpatterns = [
     path("", views.home, name='home'),
@@ -21,5 +22,8 @@ urlpatterns = [
     path('artists/', artist_list, name='artist_list'),
     path('artists/<str:artist_name>/', products_by_artist, name="products_by_artist"),
     path('search-results/<str:query>/', search_results, name="search_results"),
+    path('add_to_wishlist/<int:product_id>/', add_to_wishlist, name='add_to_wishlist'),
+    path('wishlist/', wishlist, name='wishlist'),
+    path('remove_from_wishlist/<int:wishlist_item_id>/', remove_from_wishlist, name='remove_from_wishlist'),
 ]
 

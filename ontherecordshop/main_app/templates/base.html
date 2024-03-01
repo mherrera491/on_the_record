@@ -10,6 +10,21 @@
     {% tailwind_css %}
   </head>
   <body>
+
+    <div id="message-overlay" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 hidden z-50">
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-md shadow-md">
+        <div id="messages-container">
+          {% if messages %}
+            <ul class="messages">
+              {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
     <div class="min-h-full">
       <nav class="bg-sky-800 shadow-md fixed w-full top-0 z-10" id="navbar">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -48,8 +63,8 @@
                     class="text-gray-300 hover:bg-sky-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
                     >Shop By Artist</a
                   >
-                  <div class="md:flex items-center relative ml-4">
-                    <form id="search-form" action="" method="get" class="flex">
+                  {% comment %} <div class="md:flex items-center relative ml-4">
+                    <form id="search-form" action="{% url 'search_results' %}" method="get" class="flex">
                     <input
                       type="text"
                       id="search-input"
@@ -59,7 +74,7 @@
                     />
                     <button type='submit' class="ml-1 text-gray-300 px-3 py-2 bg-sky-800 text-white rounded-md hover:bg-sky-700 hover:text-white">Search</button>
                   </form>
-                  </div>
+                  </div> {% endcomment %}
                 </div>
               </div>
             </div>
@@ -114,12 +129,12 @@
                   >
                     {% if user.is_authenticated %}
                     <a
-                      href="#"
+                      href="{% url 'wishlist' %}"
                       class="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
                       tabindex="-1"
                       id="user-menu-item-0"
-                      >Your Profile</a
+                      >Your Wishlist</a
                     >
                     <form action="{% url 'logout' %}" method="post" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">
                       {% csrf_token %}
@@ -258,9 +273,9 @@
             <div class="mt-3 space-y-1 px-2">
               {% if user.is_authenticated %}
               <a
-                href="#"
+                href="{% url 'wishlist' %}"
                 class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-sky-700 hover:text-white"
-                >Your Profile</a
+                >Your Wishlist</a
               >
               <form
                 action="{% url 'logout' %}"
@@ -326,6 +341,33 @@
           mobileMenu.classList.toggle("hidden");
         });
       });
+
+        document.addEventListener("DOMContentLoaded", function() {
+          const overlay = document.getElementById("message-overlay");
+          const messagesContainer = document.getElementById("messages-container");
+      
+          function showOverlay() {
+            overlay.classList.remove("hidden");
+          }
+      
+          function hideOverlay() {
+            overlay.classList.add("hidden");
+          }
+      
+          function updateOverlay() {
+            const messagesExist = messagesContainer && messagesContainer.children.length > 0;
+      
+            if (messagesExist) {
+              showOverlay();
+      
+              setTimeout(function() {
+                hideOverlay();
+              }, 2000);
+            }
+          }
+      
+          updateOverlay();
+        });
 
     </script>
   </body>

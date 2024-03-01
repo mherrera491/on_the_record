@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Cart, CartItem, Genre
+from .models import Product, Cart, CartItem, Genre, Wishlist, WishlistItem
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DeleteView, TemplateView
@@ -26,7 +26,10 @@ def products_index(request):
 
 def product_detail(request, pk):
     product = Product.objects.get(id=pk)
-    return render(request, 'products/detail.html', { 'product': product })
+
+    product_in_wishlist = WishlistItem.objects.filter(wishlist__user=request.user, product=product).first()
+
+    return render(request, 'products/detail.html', { 'product': product, 'product_in_wishlist': product_in_wishlist })
 
 def genre_list(request):
     genres = Genre.objects.all().order_by('name')
@@ -87,7 +90,8 @@ def add_to_cart(request, product_id):
 
         messages.success(request, f"{quantity} x {product.album} added to the cart.")
 
-        return redirect('cart')
+        referring_url = request.META.get('HTTP_REFERER', '/')
+        return redirect(referring_url)
 
     return render(request, 'products/detail.html', {'product': product})
 
@@ -122,6 +126,29 @@ def update_cart_item(request, cart_item_id):
         return redirect('cart')
 
     return render(request, 'products/view_cart.html', {'cart_items': CartItem.objects.filter(cart=request.user.cart)})
+
+@login_required
+def add_to_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    if request.method == 'POST':
+        wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+        wishlist_item, created = WishlistItem.objects.get_or_create(wishlist=wishlist, product=product)
+
+        return redirect('detail', pk=product.id)
+
+    return render(request, 'products/detail.html', {'product': product})
+
+def wishlist(request):
+    user_wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+    wishlist_items = WishlistItem.objects.filter(wishlist=user_wishlist)
+    return render(request, 'wishlist/wishlist.html', {'wishlist_items': wishlist_items})
+
+@login_required
+def remove_from_wishlist(request, wishlist_item_id):
+    wishlist_item = get_object_or_404(WishlistItem, pk=wishlist_item_id, wishlist__user=request.user)
+    wishlist_item.delete()
+    return redirect('wishlist')
 
 def checkout(request):
     cart, created = Cart.objects.get_or_create(user=request.user)

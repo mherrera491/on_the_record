@@ -41,3 +41,20 @@ class CartItem(models.Model):
     
     def get_absolute_url(self):
         return reverse('cart_item_delete', kwargs={'pk': self.pk})
+    
+class Wishlist(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product, through='WishlistItem')
+
+    def __str__(self):
+        return f'Wishlist - {self.user.username}'
+
+class WishlistItem(models.Model):
+    wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.product.album} in {self.wishlist}'
+
+    def get_absolute_url(self):
+        return reverse('wishlist_item_remove', kwargs={'pk': self.pk})
