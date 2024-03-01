@@ -1,1 +1,1 @@
-web: gunicorn ontherecordshop.wsgi
+web: gunicorn ontherecordshop.wsgi:application
