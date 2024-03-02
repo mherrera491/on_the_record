@@ -98,9 +98,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ontherecord',
-        'USER': os.environ('DB_USER'),
-        'PASSWORD': os.environ('DB_PASSWORD'),
-        'HOST':os.environ('DATABASE_URL'),
+        'USER': os.environ['DB_USER'],
+        'PASSWORD': os.environ['DB_PASSWORD'],
+        'HOST':os.environ['DATABASE_URL'],
         'PORT': '5432'
     }
 }
