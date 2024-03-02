@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-)ju6c2)h+%cgubl9(tsfvk$+cw9=7ru9h$+f&$7+%a**5%d0@4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://ontherecord-lc80.onrender.com', 'http://127.0.0.1:8000/']
 
 
 # Application definition
