@@ -27,7 +27,9 @@ def products_index(request):
 def product_detail(request, pk):
     product = Product.objects.get(id=pk)
 
-    product_in_wishlist = WishlistItem.objects.filter(wishlist__user=request.user, product=product).first()
+    product_in_wishlist = None
+    if request.user.is_authenticated:
+        product_in_wishlist = WishlistItem.objects.filter(wishlist__user=request.user, product=product).first()
 
     return render(request, 'products/detail.html', { 'product': product, 'product_in_wishlist': product_in_wishlist })
 
