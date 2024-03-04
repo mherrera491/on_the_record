@@ -1,8 +1,5 @@
 # On The Record Shopping App
 
-#### A e-commerce website that sells vinyl records.
-<img src="./assets/images/memorygame-home.png" alt="Home Page"/>
-
 ## Description
 On The Record is an e-commerce application made to sell vinyl records. Users can browse by genre, artist, or shop all. They have the ability to create logins so that they can make purchases and create their own wishlists. This application uses Django and PostgreSQL. Along with Tailwind CSS and Stripe's API to handle payments.
 
