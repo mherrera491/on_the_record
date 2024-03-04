@@ -13,9 +13,12 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
-import environ
-environ.Env()
-environ.Env.read_env()
+from dotenv import load_dotenv
+load_dotenv()
+# import environ
+# environ.Env()
+# environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +33,7 @@ SECRET_KEY = 'django-insecure-)ju6c2)h+%cgubl9(tsfvk$+cw9=7ru9h$+f&$7+%a**5%d0@4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ontherecord-lc80.onrender.com']
+ALLOWED_HOSTS = ['ontherecord-lc80.onrender.com', '127.0.0.1']
 
 
 # Application definition
@@ -98,12 +101,21 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ontherecord',
-        'USER': os.environ['DB_USER'],
-        'PASSWORD': os.environ['DB_PASSWORD'],
-        'HOST':os.environ['DATABASE_URL'],
-        'PORT': '5432'
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'ontherecord',
+#         'USER': os.environ['DB_USER'],
+#         'PASSWORD': os.environ['DB_PASSWORD'],
+#         'HOST': os.environ['DATABASE_URL'],
+#         'PORT': '5432'
+#     }
+# }
 
 # DATABASES = {
 #     'default': dj_database_url.config(
