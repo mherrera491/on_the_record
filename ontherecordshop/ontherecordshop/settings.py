@@ -97,14 +97,14 @@ WSGI_APPLICATION = 'ontherecordshop.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ontherecord',
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'ontherecord',
+#         'USER': os.getenv('DB_USER'),
+#         'PASSWORD': os.getenv('DB_PASSWORD'),
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
@@ -117,12 +117,12 @@ DATABASES = {
 #     }
 # }
 
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default=os.getenv('DATABASE_URL'),
-#         conn_max_age=600
-#     )
-# }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600
+    )
+}
 
 STRIPE_PUBLIC_KEY = 'pk_test_51OnNDKI6q9Dae5J9VKGiHpGcMZSR4kSotoAOQ5ZfO9LK2xcPjTDJNZth4KZJ4BNyzgRXojXCTxmhd2vbaPRIUi8C00lyPhanlc'
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
